@@ -152,6 +152,20 @@ int pingpong() {
 }
 
 int main(int argc, char *argv[]) {
-  // todo: error message
-  exit(pingpong());
+  int rc = pingpong();
+  switch (rc) {
+    case PINGPONG_PIPE_FAILURE:
+      fprintf(2, "Failed to create pipes.\n");
+      break;
+    case PINGPONG_FORK_FAILURE:
+      fprintf(2, "Failed to fork process.\n");
+      break;
+    case PINGPONG_IO_FAILURE:
+      fprintf(2, "I/O error.\n");
+      break;
+    case PINGPONG_MEMORY_ALLOCATION_FAILURE:
+      fprintf(2, "Failed to allocate memory.\n");
+      break;
+  }
+  exit(rc);
 }
