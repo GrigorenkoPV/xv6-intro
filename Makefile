@@ -192,6 +192,7 @@ UPROGS=\
 	$U/_zombie\
 	$U/_dumptests\
 	$U/_dump2tests\
+	$U/_pingpong\
 
 
 ifeq ($(LAB),traps)
