@@ -1,0 +1,37 @@
+name: Intro
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+jobs:
+  grade:
+    runs-on: [self-hosted, os]
+    timeout-minutes: 10
+    name: 'Required tests'
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+      - name: 'Run tests'
+        run: ./grade
+      - name: 'Upload logs'
+        uses: actions/upload-artifact@v2
+        with:
+          name: xv6.out
+          path: xv6.out.*
+        if: ${{ failure() }}
+  grade-dump2:
+    runs-on: [self-hosted, os]
+    timeout-minutes: 10
+    name: 'Bonus: dump2'
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+      - name: 'Run tests'
+        run: ./grade-dump2
+      - name: 'Upload logs'
+        uses: actions/upload-artifact@v2
+        with:
+          name: xv6.out
+          path: xv6.out.*
+        if: ${{ failure() }}
