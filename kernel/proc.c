@@ -657,7 +657,7 @@ procdump(void)
 
 #define print_register(name) printf("%s = %d\n", #name, tf->name)
 
-uint64 dump() {
+int dump() {
   struct trapframe* tf = myproc()->trapframe;
   print_register(s2);
   print_register(s3);
@@ -669,5 +669,34 @@ uint64 dump() {
   print_register(s9);
   print_register(s10);
   print_register(s11);
+  return 0;
+}
+
+#define case_register(num) \
+  case num:                \
+    return tf->s##num;
+
+uint64 get_register(struct trapframe* tf, int register_num) {
+  switch (register_num) {
+    case_register(2);
+    case_register(3);
+    case_register(4);
+    case_register(5);
+    case_register(6);
+    case_register(7);
+    case_register(8);
+    case_register(9);
+    case_register(10);
+    case_register(11);
+  }
+  panic("get_register was called with an unexpected register number");
+}
+
+struct proc* get_proc(int pid) {
+  for (struct proc* p = proc; p < proc + NPROC; ++p) {
+    if (p->state != UNUSED && p->pid == pid) {
+      return p;
+    }
+  }
   return 0;
 }

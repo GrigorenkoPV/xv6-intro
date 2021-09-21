@@ -101,3 +101,37 @@ sys_dump(void)
 {
   return dump();
 }
+
+uint64
+sys_dump2(void)
+{
+  int pid;
+  int register_num;
+  uint64 return_value_addr;
+  argint(0, &pid);
+  argint(1, &register_num);
+  argaddr(2, &return_value_addr);
+
+  if (register_num < 2 || register_num > 11) {
+    return -3;
+  }
+
+  struct proc* caller = myproc();
+  struct proc* subject = get_proc(pid);
+
+  if (!subject) {
+    return -2;
+  }
+
+  if (caller->pid != subject->pid && caller->pid != subject->parent->pid) {
+    return -1;
+  }
+
+  uint64 result = get_register(subject->trapframe, register_num);
+
+  if (copyout(caller->pagetable, return_value_addr, (void*)(&result),
+              sizeof(uint64))) {
+    return -4;
+  }
+  return 0;
+}
