@@ -657,7 +657,7 @@ procdump(void)
 
 #define print_register(name) printf("%s = %d\n", #name, tf->name)
 
-uint64 dump() {
+int dump() {
   struct trapframe* tf = myproc()->trapframe;
   print_register(s2);
   print_register(s3);
@@ -669,5 +669,10 @@ uint64 dump() {
   print_register(s9);
   print_register(s10);
   print_register(s11);
+  return 0;
+}
+
+int dump2(int pid, int register_num, uint64* return_value){
+  // todo
   return 0;
 }

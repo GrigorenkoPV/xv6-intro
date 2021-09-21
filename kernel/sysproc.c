@@ -101,3 +101,10 @@ sys_dump(void)
 {
   return dump();
 }
+
+uint64
+sys_dump2(void)
+{
+  // todo
+  return dump2();
+}
