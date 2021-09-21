@@ -8,6 +8,7 @@ struct spinlock;
 struct sleeplock;
 struct stat;
 struct superblock;
+struct trapframe;
 
 // bio.c
 void            binit(void);
@@ -105,7 +106,8 @@ int             either_copyout(int user_dst, uint64 dst, void *src, uint64 len);
 int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
 void            procdump(void);
 int             dump(void);
-int             dump2(int pid, int register_num, uint64* return_value);
+struct proc*    get_proc(int pid);
+uint64          get_register(struct trapframe *tf, int register_num);
 
 // swtch.S
 void            swtch(struct context*, struct context*);
