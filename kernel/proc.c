@@ -654,3 +654,8 @@ procdump(void)
     printf("\n");
   }
 }
+
+uint64 dump() {
+  // todo
+  return 0;
+}
